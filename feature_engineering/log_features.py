@@ -1,14 +1,16 @@
 # log_features.py
-# Goal: Read raw log lines from a file to turn them into features.
+# Goal: Read raw log lines from a file and turn them into features.
 
 from pathlib import Path
 import csv
+
 
 def read_log_file(path: str) -> list[str]:
     """Read the log file and return a list of raw lines."""
     log_path = Path(path)
     lines = log_path.read_text(encoding="utf-8").splitlines()
     return lines
+
 
 def parse_log_line(line: str) -> dict:
     """
@@ -42,13 +44,6 @@ def parse_log_line(line: str) -> dict:
 
     return data
 
-if __name__ == "__main__":
-    logs = read_log_file("data/sample_logs.txt")
-    print("Loaded", len(logs), "log entries")
-
-    for line in logs:
-        parsed = parse_log_line(line)
-        print(parsed)
 
 # Potential features for each log entry:
 # - is_failed_login: did the status equal "failed"?
@@ -79,6 +74,7 @@ def is_private_ip(ip: str) -> bool:
         ip.startswith("172.31.")
     )
 
+
 def extract_features(parsed_log: dict) -> dict:
     """
     Turn a parsed log dict into a feature dict suitable for ML.
@@ -105,6 +101,7 @@ def extract_features(parsed_log: dict) -> dict:
 
     return features
 
+
 def build_feature_dataset(input_path: str, output_path: str) -> None:
     """
     Read raw logs, parse them, extract features, and save to a CSV file.
@@ -130,7 +127,21 @@ def build_feature_dataset(input_path: str, output_path: str) -> None:
 
     print(f"Wrote {len(feature_rows)} rows to {output_path}")
 
-if __name__ == "__main__":
-    build_feature_dataset("data/sample_logs.txt", "data/log_features.csv")
 
+if __name__ == "__main__":
+    # Entry point: build the dataset when this file is run directly
+    logs = read_log_file("data/sample_logs.txt")
+    print("Loaded", len(logs), "log entries")
+
+    # Optional: show one example of parsed + features for debugging
+    for line in logs:
+        parsed = parse_log_line(line)
+        features = extract_features(parsed)
+        print("RAW:", line)
+        print("PARSED:", parsed)
+        print("FEATURES:", features)
+        print("-" * 40)
+
+    # Generate CSV feature dataset
+    build_feature_dataset("data/sample_logs.txt", "data/log_features.csv")
 
