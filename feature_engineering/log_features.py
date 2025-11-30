@@ -2,6 +2,7 @@
 # Goal: Read raw log lines from a file to turn them into features.
 
 from pathlib import Path
+import csv
 
 def read_log_file(path: str) -> list[str]:
     """Read the log file and return a list of raw lines."""
@@ -104,14 +105,32 @@ def extract_features(parsed_log: dict) -> dict:
 
     return features
 
-if __name__ == "__main__":
-    logs = read_log_file("data/sample_logs.txt")
-    print("Loaded", len(logs), "log entries")
+def build_feature_dataset(input_path: str, output_path: str) -> None:
+    """
+    Read raw logs, parse them, extract features, and save to a CSV file.
+    """
+    lines = read_log_file(input_path)
 
-    for line in logs:
+    feature_rows = []
+    for line in lines:
         parsed = parse_log_line(line)
         features = extract_features(parsed)
-        print("RAW:", line)
-        print("PARSED:", parsed)
-        print("FEATURES:", features)
-        print("-" * 40)
+        feature_rows.append(features)
+
+    if not feature_rows:
+        print("No features to write.")
+        return
+
+    fieldnames = list(feature_rows[0].keys())
+
+    with open(output_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(feature_rows)
+
+    print(f"Wrote {len(feature_rows)} rows to {output_path}")
+
+if __name__ == "__main__":
+    build_feature_dataset("data/sample_logs.txt", "data/log_features.csv")
+
+
