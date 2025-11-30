@@ -1,0 +1,5 @@
+2025-01-01 10:05:23,INFO,login,username=linda,ip=10.0.0.5,status=success
+2025-01-01 10:06:10,WARN,login,username=linda,ip=192.168.1.10,status=failed
+2025-01-01 10:06:45,ERROR,access,username=unknown,ip=203.0.113.5,status=denied
+2025-01-01 10:07:00,INFO,login,username=admin,ip=10.0.0.6,status=success
+2025-01-01 10:07:30,WARN,login,username=admin,ip=203.0.113.50,status=failed
