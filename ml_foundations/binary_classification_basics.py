@@ -1,5 +1,6 @@
 # binary_classification_basics.py
 # Goal: Understand how we evaluate yes/no (binary) predictions.
+#"Simulate rule-based suspicious activity detector using engineered features"
 
 from typing import List, Tuple
 
