@@ -77,3 +77,41 @@ def is_private_ip(ip: str) -> bool:
         ip.startswith("172.30.") or
         ip.startswith("172.31.")
     )
+
+def extract_features(parsed_log: dict) -> dict:
+    """
+    Turn a parsed log dict into a feature dict suitable for ML.
+    """
+    if parsed_log.get("parse_error"):
+        return {"parse_error": 1}
+
+    status = parsed_log.get("status", "")
+    username = parsed_log.get("username", "")
+    ip = parsed_log.get("ip", "")
+    level = parsed_log.get("level", "")
+
+    features = {
+        # Binary features
+        "is_failed_login": 1 if status == "failed" else 0,
+        "is_admin_user": 1 if username == "admin" else 0,
+        "is_external_ip": 0 if is_private_ip(ip) else 1,
+
+        # Level encoding (simplified)
+        "level_info": 1 if level == "INFO" else 0,
+        "level_warn": 1 if level == "WARN" else 0,
+        "level_error": 1 if level == "ERROR" else 0,
+    }
+
+    return features
+
+if __name__ == "__main__":
+    logs = read_log_file("data/sample_logs.txt")
+    print("Loaded", len(logs), "log entries")
+
+    for line in logs:
+        parsed = parse_log_line(line)
+        features = extract_features(parsed)
+        print("RAW:", line)
+        print("PARSED:", parsed)
+        print("FEATURES:", features)
+        print("-" * 40)
