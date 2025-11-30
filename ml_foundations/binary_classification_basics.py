@@ -1,6 +1,5 @@
 # binary_classification_basics.py
 # Goal: Understand how we evaluate yes/no (binary) predictions.
-#"Simulate rule-based suspicious activity detector using engineered features"
 
 from typing import List, Tuple
 
@@ -34,7 +33,9 @@ def count_outcomes(
 
 
 if __name__ == "__main__":
-    # 1 = suspicious, 0 = normal
+    # Example scenario:
+    # 1 = suspicious login, 0 = normal
+    # Pretend these labels come from a security analyst.
     y_true = [0, 1, 1, 0, 1]  # ground truth labels
     y_pred = [0, 1, 0, 0, 1]  # model predictions (imperfect)
 
