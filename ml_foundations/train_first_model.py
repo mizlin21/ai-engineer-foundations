@@ -7,6 +7,13 @@ from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
+from binary_classification_basics import (
+    count_outcomes,
+    accuracy,
+    precision,
+    recall,
+    f1_score,
+)
 
 def load_dataset(path: str):
     csv_path = Path(path)
@@ -59,3 +66,23 @@ if __name__ == "__main__":
     model.fit(X_train, y_train)
 
     print("Model trained successfully")
+
+    # Use the model to make predictions on the same data
+    y_pred = model.predict(X)
+
+    # Convert predictions to a regular Python list (for the metric functions)
+    y_pred = list(y_pred)
+
+    tp, tn, fp, fn = count_outcomes(y, y_pred)
+
+    print("TP:", tp, "TN:", tn, "FP:", fp, "FN:", fn)
+
+    acc = accuracy(tp, tn, fp, fn)
+    prec = precision(tp, fp)
+    rec = recall(tp, fn)
+    f1 = f1_score(tp, fp, fn)
+
+    print("Accuracy:", acc)
+    print("Precision:", prec)
+    print("Recall:", rec)
+    print("F1:", f1)
