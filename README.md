@@ -121,3 +121,101 @@ ai-engineer-foundations/
 ├── ml_foundations/            # Metrics, evaluation, and model logic
 └── README.md                  # Project rationale and progression
 
+---
+
+## Week 4 – Training and Evaluating a First Machine Learning Model
+
+### Objective
+The goal of Week 4 was to move beyond rule-based detection and introduce a
+machine learning–driven approach, while maintaining a strong engineering
+and security-focused mindset. This phase emphasized not only training a model,
+but understanding how and why models are evaluated, and what their outputs
+mean in real-world security scenarios.
+
+---
+
+### What I Built
+During this week, I implemented an end-to-end miniature machine learning
+pipeline using engineered log features:
+
+- Trained a **Logistic Regression** binary classifier on structured security log data
+- Explicitly defined labels to simulate analyst judgment
+- Generated predictions using the trained model
+- Evaluated model performance using **custom-written security metrics**
+
+All steps were implemented deliberately without hiding core logic behind
+high-level abstractions, ensuring full understanding of the modeling process.
+
+---
+
+### Model Evaluation Approach
+Rather than relying solely on library-provided evaluation methods, the model
+was evaluated using previously implemented metric functions:
+
+- **True Positives (TP)**
+- **True Negatives (TN)**
+- **False Positives (FP)**
+- **False Negatives (FN)**
+
+From these values, I computed:
+
+- **Accuracy**
+- **Precision**
+- **Recall**
+- **F1 Score**
+
+This reinforced a clear mental model of how evaluation metrics are constructed
+and how they reflect model behavior.
+
+---
+
+### Why This Matters (Security Context)
+In a security detection setting:
+
+- **False Positives** increase analyst workload and contribute to alert fatigue
+- **False Negatives** represent missed threats and elevated risk
+
+This phase focused on understanding how TP, TN, FP, and FN directly influence
+precision and recall, and why accuracy alone is often an insufficient metric
+for evaluating detection systems.
+
+Model performance was interpreted operationally, treating the classifier as
+part of a security system rather than a purely statistical artifact.
+
+---
+
+### Key Takeaways
+- Machine learning models must be evaluated in context, especially in security
+- High accuracy does not necessarily imply an effective detection system
+- Precision and recall represent trade-offs between analyst trust and threat coverage
+- Small datasets can produce misleadingly strong metrics, highlighting the
+  importance of data scale and validation strategy
+- Machine learning complements rule-based systems rather than replacing them
+
+---
+
+### Engineering Mindset
+This week reinforced an end-to-end engineering approach:
+
+> data → features → labels → model → predictions → evaluation → interpretation
+
+By the end of Week 4, both a **rule-based detector** and an **ML-based detector**
+were evaluated using the same metrics, enabling meaningful comparison and
+critical reasoning about when and where machine learning adds value.
+
+---
+
+### Lessons Learned
+- Training a machine learning model is only one part of the system; data quality,
+  label design, and evaluation strategy matter just as much as model choice.
+- Errors encountered during training often reflect underlying data assumptions
+  rather than coding mistakes, reinforcing the need to inspect inputs and labels
+  before debugging algorithms.
+- Small datasets can produce unstable or misleading evaluation results, especially
+  when splitting into training and testing sets.
+- Accuracy alone is insufficient for evaluating security systems; precision and
+  recall better capture the operational impact of false positives and false negatives.
+- Machine learning models complement rule-based detection systems by learning
+  patterns from data, but do not replace the need for explicit rules and constraints.
+- Interpreting model performance within a security context helps ensure that
+  detection systems are both effective and usable by analysts.
